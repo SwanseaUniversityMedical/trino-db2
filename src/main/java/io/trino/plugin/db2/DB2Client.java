@@ -123,7 +123,17 @@ public class DB2Client
             RemoteQueryModifier queryModifier)
             throws SQLException
     {
-        super(config, "\"", connectionFactory, queryBuilder, identifierMapping, queryModifier);
+        super("\"",
+
+                connectionFactory,
+                //Config is no longer applicable within the super constructor
+                //config,
+                queryBuilder,
+                //put jdbcTypesMappedToVarchar here
+                identifierMapping,
+                queryModifier,
+                // This may be True or False (supportsRetire)
+                true);
         this.varcharMaxLength = db2config.getVarcharMaxLength();
 
         // http://stackoverflow.com/questions/16910791/getting-error-code-4220-with-null-sql-state

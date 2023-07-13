@@ -3,10 +3,10 @@ version: "3.7"
 
 services:
   trino-coordinator:
-    image: trinodb/trino:405
+    image: trinodb/trino:420
     container_name: trino-coordinator
     volumes:
-    - source: ./target/trino-db2-405
+    - source: ./target/trino-db2-420
       target: /usr/lib/trino/plugin/db2
       type: bind
     - source: ./conf/trino/catalog

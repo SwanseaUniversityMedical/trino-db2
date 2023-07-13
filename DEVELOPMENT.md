@@ -26,32 +26,32 @@ I'd recommend following this process to iterate:
 
 1. Clone this repo to a local development environment, e.g., IntelliJ IDEA. And
 keep code changes in a branch.
-1. Run `mvn clean install` or the Maven tool window of the IDE to build this
+2. Run `mvn clean install` or the Maven tool window of the IDE to build this
 connector, while addressing errors/problems from build output.
-1. Config a separate trinodb server with the built connector by creating a file
+3. Config a separate trinodb server with the built connector by creating a file
 named `docker-compose.yml`:
     ```YAML
     # docker-compose.yml
     version: "3.7"
 
     services:
-    trino-coordinator:
+      trino-coordinator:
         image: trinodb/trino:<trino_verson_from_pom>
         container_name: trino-coordinator
         volumes:
         - source: ./target/trino-db2-<trino_verson_from_pom>
-        target: /usr/lib/trino/plugin/db2
-        type: bind
+          target: /usr/lib/trino/plugin/db2
+          type: bind
         - source: ./conf/trino
-        target: /etc/trino
-        type: bind
+          target: /etc/trino
+          type: bind
         ports:
         - "8080:8080"
     ```
-1. Make sure creating a connector config under `./conf/trino/catalog` to connect
+4. Make sure creating a connector config under `./conf/trino/catalog` to connect
 to an actual Db2 database. see details from [Connection Configuration](README.md#connection-configuration).
-1. Start this local trinodb server by running `docker-compose up -d`
-1. Connect to this local trinodb server via CLI to perform queries while
+5. Start this local trinodb server by running `docker-compose up -d`
+6. Connect to this local trinodb server via CLI to perform queries while
 capturing server output from container logs by running command `docker logs trino-coordinator`.
-1. If changing Java code, delete this local trinodb server by running command
+7. If changing Java code, delete this local trinodb server by running command
 `docker-compose down` then start from step 2.
