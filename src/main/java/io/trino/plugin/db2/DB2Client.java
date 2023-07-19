@@ -13,6 +13,7 @@
  */
 package io.trino.plugin.db2;
 
+import com.google.inject.Inject;
 import io.trino.plugin.jdbc.BaseJdbcClient;
 import io.trino.plugin.jdbc.BaseJdbcConfig;
 import io.trino.plugin.jdbc.ColumnMapping;
@@ -38,8 +39,6 @@ import io.trino.spi.type.TimestampType;
 import io.trino.spi.type.Type;
 import io.trino.spi.type.TypeManager;
 import io.trino.spi.type.VarcharType;
-
-import javax.inject.Inject;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -111,8 +110,11 @@ public class DB2Client
     // java.util.LocalDateTime supports up to nanosecond precision
     private static final int MAX_LOCAL_DATE_TIME_PRECISION = 9;
     private static final String VARCHAR_FORMAT = "VARCHAR(%d)";
+    private static final Boolean supportsRetires = true;
 
-    @Inject
+   // TODO: FIX
+
+   @Inject
     public DB2Client(
             BaseJdbcConfig config,
             DB2Config db2config,
@@ -120,10 +122,20 @@ public class DB2Client
             QueryBuilder queryBuilder,
             TypeManager typeManager,
             IdentifierMapping identifierMapping,
-            RemoteQueryModifier queryModifier)
+            RemoteQueryModifier queryModifier
+
+    )
             throws SQLException
     {
-        super(config, "\"", connectionFactory, queryBuilder, identifierMapping, queryModifier);
+
+        super("\"",
+
+                connectionFactory,
+                queryBuilder,
+                config.getJdbcTypesMappedToVarchar(),
+                identifierMapping,
+                queryModifier,
+                supportsRetires);
         this.varcharMaxLength = db2config.getVarcharMaxLength();
 
         // http://stackoverflow.com/questions/16910791/getting-error-code-4220-with-null-sql-state

@@ -28,7 +28,7 @@ import io.trino.plugin.jdbc.JdbcClient;
 import io.trino.plugin.jdbc.TypeHandlingJdbcConfig;
 import io.trino.plugin.jdbc.credential.CredentialProvider;
 import io.trino.plugin.jdbc.ptf.Query;
-import io.trino.spi.ptf.ConnectorTableFunction;
+import io.trino.spi.function.table.ConnectorTableFunction;
 
 import java.util.Properties;
 
